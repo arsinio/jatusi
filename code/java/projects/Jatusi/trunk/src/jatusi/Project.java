@@ -31,8 +31,8 @@ public class Project
 			// first, we have to generate our header file
 			if( !CGenerator.generateHeaderFile(targetDirectoryIn, currCu) ) return false;
 			
-			// next, generate our implementation file (c file)
-			if( !CGenerator.generateImplementationFile(targetDirectoryIn, currCu) ) return false;
+			// next, generate our implementation file (c file) stubs
+			if( !CGenerator.generateImplementationFileStubs(targetDirectoryIn, currCu) ) return false;
 		}
 		
 		

@@ -194,7 +194,7 @@ public class CGenerator
 	
 	
 	/**
-	 * This function generates the implementation file for the given compilation unit
+	 * This function generates the implementation file stubs for the given compilation unit
 	 * (should be a java class) and outputs the implementation file in the given
 	 * target directory.
 	 * 
@@ -205,7 +205,7 @@ public class CGenerator
 	 * 
 	 * @return true if the implementation file was generated without any errors. False on error
 	 */
-	protected static boolean generateImplementationFile(File targetDirectoryIn, CompilationUnit cuIn)
+	protected static boolean generateImplementationFileStubs(File targetDirectoryIn, CompilationUnit cuIn)
 	{
 		// figure out our namespace
 		String namespace = getNamespace(cuIn);
@@ -302,7 +302,7 @@ public class CGenerator
 					if( (currMd.getModifiers() & Modifier.PRIVATE) == 0 )
 					{
 						hasGlobalFunctions = true;
-						cFile.printf("%s\r\n\r\n\r\n", renderMethodImplementation(currMd, namespace, className));	
+						cFile.printf("%s\r\n\r\n\r\n", renderMethodImplementationStub(currMd, namespace, className));	
 					}
 				}
 			}
@@ -321,7 +321,7 @@ public class CGenerator
 					// render only private functions
 					if( (currMd.getModifiers() & Modifier.PRIVATE) != 0 )
 					{
-						cFile.printf("%s\r\n\r\n\r\n", renderMethodImplementation(currMd, namespace, className));	
+						cFile.printf("%s\r\n\r\n\r\n", renderMethodImplementationStub(currMd, namespace, className));	
 					}
 				}
 			}
@@ -446,8 +446,10 @@ public class CGenerator
 		}
 		
 		// now our variable types (common to both constructor and methods)
-		String variableList = "";
 		List<SingleVariableDeclaration> parameters = (List<SingleVariableDeclaration>)mdIn.parameters();
+		String variableList = ((mdIn.getModifiers() & Modifier.STATIC) != 0) ? 
+				"" : 
+				(classNameIn + "_t *thisIn" + (parameters.isEmpty() ? "" : ", ")); 
 		for( int i = 0; i < parameters.size(); i++ )
 		{
 			SingleVariableDeclaration currSd = parameters.get(i);
@@ -459,7 +461,7 @@ public class CGenerator
 				variableList += ", ";
 			}
 		}
-		if( parameters.size() == 0 ) variableList = "void";
+		if( parameters.size() == 0 && variableList.isEmpty() ) variableList = "void";
 		
 		// now render our method name differently if we are constructor
 		String methodName = mdIn.getName().getFullyQualifiedName();
@@ -485,7 +487,7 @@ public class CGenerator
 	}
 	
 	
-	private static String renderMethodImplementation(MethodDeclaration mdIn, String namespaceIn, String classNameIn) throws ParseException
+	private static String renderMethodImplementationStub(MethodDeclaration mdIn, String namespaceIn, String classNameIn) throws ParseException
 	{
 		
 		return String.format("%s\r\n{\r\n}", renderMethodPrototype(mdIn, namespaceIn, classNameIn));
