@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jatusi;
+package org.jatusi;
 
 import java.beans.Introspector;
 import java.io.File;
@@ -340,18 +340,50 @@ public class CGenerator
 	}
 	
 	
+	/**
+	 * Returns the 'C' "namespace" of the given compilation unit (java class). 
+	 * 
+	 * The "namespace" is constructed as follows:
+	 * <javaPackageName>.replace('.', '_')
+	 * 
+	 * @param cuIn the top-level compilation unit (java class)
+	 * 
+	 * @return a string representing the namespace of the given class
+	 */
 	private static String getNamespace(CompilationUnit cuIn)
 	{
 		return cuIn.getPackage().getName().getFullyQualifiedName().replace('.', '_');
 	}
 	
 	
+	/**
+	 * Returns the 'C' "class name" of the given type declaration (java class)
+	 * The "class name" is simply the Java Class name converted to camel case.
+	 * 
+	 * @param tdIn the type declaration containing the top-level class declaration
+	 * 
+	 * @return a string representing the 'C' "class name" of the given java class
+	 */
 	private static String getClassName(TypeDeclaration tdIn)
 	{	
 		return Introspector.decapitalize(tdIn.getName().getFullyQualifiedName());
 	}
 	
 	
+	/**
+	 * Renders a "macro-ification" of a field declaration (variable).The field 
+	 * should be determined to be both static and final to be rendered as a macro.
+	 * 
+	 * Rendered macros are generally rendered as:
+	 * #define <variable_name>         <initial value>
+	 * 
+	 * @param fdIn the declaration of the given class field (variable)
+	 * 
+	 * @return a string representing the field declaration represented as a macro
+	 * 
+	 * @throws ParseException if the variable initializer is not a numeric or string
+	 * 		value
+	 */
 	private static String renderMacro(FieldDeclaration fdIn) throws ParseException
 	{		
 		// now determine our variable name
