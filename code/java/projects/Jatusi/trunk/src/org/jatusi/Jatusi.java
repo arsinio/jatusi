@@ -1,11 +1,15 @@
-package jatusi;
+package org.jatusi;
 
+
+import java.awt.EventQueue;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
+
+import org.jatusi.gui.JatusiGui;
 
 
 /**
@@ -41,25 +45,23 @@ public class Jatusi
 		{
 			System.err.println("Could not load 'jatusi.properties'...using default configuration...");
 		}
-			
 		
-		/*
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle("Jatusi -- Choose Project Directory");
-		fileChooser.setCurrentDirectory(new File("C:\\Users\\Christopher Armenio\\workspace\\Jatusi"));
-		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		if( fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION )
+
+		//Launch the application.
+		EventQueue.invokeLater(new Runnable()
 		{
-			Project newProject = JavaParser.parseProject(fileChooser.getSelectedFile());
-		}
-		else
-		{
-			System.err.println("Error choosing project directory...");
-		}
-		*/
-	
-		Project newProject = JavaParser.parseProject(new File("C:\\Users\\Christopher Armenio\\workspace\\Jatusi Test Project"));
-		newProject.generateStubFiles(new File("C:\\Users\\Christopher Armenio\\Desktop\\test"));
+			public void run()
+			{
+				try
+				{
+					JatusiGui window = new JatusiGui();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

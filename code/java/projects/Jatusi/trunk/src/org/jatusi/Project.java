@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jatusi;
+package org.jatusi;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class Project
 	}
 	
 	
-	protected boolean generateStubFiles(File targetDirectoryIn)
+	public boolean generateStubFiles(File targetDirectoryIn)
 	{
 		for( CompilationUnit currCu : this.compilationUnits )
 		{

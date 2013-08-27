@@ -12,5 +12,10 @@
 	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.jdt.core_3.8.2.v20120814-155456.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="forms-1.3.0.jar" sourcepath="forms-1.3.0-src.zip"/>
+	<classpathentry kind="lib" path="lib/openpojo-0.4.5.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Jatusi/lib/openpojo-0.4.5-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

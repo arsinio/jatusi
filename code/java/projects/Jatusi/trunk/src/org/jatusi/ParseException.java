@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jatusi;
+package org.jatusi;
 
 import java.io.File;
 

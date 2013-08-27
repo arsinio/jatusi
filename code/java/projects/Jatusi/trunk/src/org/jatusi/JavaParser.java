@@ -1,11 +1,13 @@
 /**
  * 
  */
-package jatusi;
+package org.jatusi;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.compiler.IProblem;
@@ -25,16 +27,12 @@ public class JavaParser
 	private static ASTParser parser = ASTParser.newParser(AST.JLS4);
 	
 	
-	public static Project parseProject(File projDir)
+	public static Project parseProject(List<File> filesIn)
 	{
 		Project retProject = new Project();
 		
-		// get a list of all of our java files
-		String[] extensions = {"java"};
-		Collection<File> files = FileUtils.listFiles(projDir, extensions, true);
-		
 		// now iterate over each file/class
-		for( File currFile : files )
+		for( File currFile : filesIn )
 		{	
 			// read the file contents
 			String fileContents = null;
@@ -45,7 +43,6 @@ public class JavaParser
 			catch (IOException e)
 			{
 				System.err.printf("Error reading file '%s'\r\n", currFile.getName());
-				System.err.println("Aborting operation.");
 				return null;
 			}
 			
@@ -63,7 +60,6 @@ public class JavaParser
 				{
 					System.err.printf("   line %d: '%s'\r\n", currProb.getSourceLineNumber(), currProb.getMessage());
 				}
-				System.err.println("Aborting operation.");
 				return null;
 			}
 			
