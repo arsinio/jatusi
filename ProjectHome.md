@@ -1,0 +1,1 @@
+An open-source solution for converting Java classes to "embeddable", easy-to-read C.
